@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite thread-count="2" parallel="tests" name="Failed suite [Suite1]" guice-stage="DEVELOPMENT" verbose="10">
+  <listeners>
+    <listener class-name="com.crm.listerners.TestNGListernersClass"/>
+  </listeners>
+  <test thread-count="2" parallel="tests" name="AssignementTests1(failed)" verbose="10">
+    <classes>
+      <class name="com.crm.testscripts.CreateCampaignWithMandatoryDetailsTest">
+        <methods>
+          <include name="beforeTest"/>
+          <include name="afterSuite"/>
+          <include name="loginApplication"/>
+          <include name="beforeSuite"/>
+          <include name="logoutApplication"/>
+          <include name="createCampaignWithMandatoryDetails"/>
+          <include name="afterTest"/>
+          <include name="closeBrowser"/>
+          <include name="beforeClass"/>
+        </methods>
+      </class> <!-- com.crm.testscripts.CreateCampaignWithMandatoryDetailsTest -->
+    </classes>
+  </test> <!-- AssignementTests1(failed) -->
+</suite> <!-- Failed suite [Suite1] -->
