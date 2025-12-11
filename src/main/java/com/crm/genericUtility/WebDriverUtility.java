@@ -34,6 +34,14 @@ public class WebDriverUtility {
         driver.navigate().refresh();
         ;
     }
+    public static void toWait(long time) throws InterruptedException {
+        try {
+            Thread.sleep(time);
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
 
     // Waits &Synchronization
     public static void waitForPageToLoad(WebDriver driver) {

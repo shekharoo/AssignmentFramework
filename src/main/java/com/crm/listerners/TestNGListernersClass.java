@@ -12,21 +12,23 @@ import org.testng.Reporter;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 public class TestNGListernersClass extends BaseClass implements ITestListener {
-    public TestNGListernersClass()
-    {
-
-    }
-    WebDriver driver = null;
-    public TestNGListernersClass(WebDriver driver){
-        this.driver=driver;
-        Reporter.log("Diver value: "+driver);
-    }
+//    public TestNGListernersClass()
+//    {
+//
+//    }
+    //WebDriver driver = null;
+//    public TestNGListernersClass(WebDriver driver){
+//        this.driver=driver;
+//        Reporter.log("Diver value: "+driver);
+//    }
     CreateCampaignWithMandatoryDetailsTest c= new CreateCampaignWithMandatoryDetailsTest();
     public void onTestStart(ITestResult result) {
 
-        System.out.println("======Test is going to start========"+result.getMethod().getMethodName()+"=="+result.getName());
+
+        System.out.println("======Test is going to start========"+result.getTestContext().getName()+"=="+result.getMethod().getMethodName());
     }
 
     /**
@@ -46,19 +48,31 @@ public class TestNGListernersClass extends BaseClass implements ITestListener {
      * @see ITestResult#FAILURE
      */
     public void onTestFailure(ITestResult result) {
-        //Object currentClass = result.getInstance();
+        System.out.println(result.getTestContext().getName()+"=="+result.getMethod().getMethodName());
+         // Retrieve the driver instance from the test context
+        ITestContext context = result.getTestContext();
+        WebDriver driver = (WebDriver) context.getAttribute("WebDriver");
         //BaseClass bs = new BaseClass();
-        //WebDriver driver = bs.getDriver();
+        //driver = bs.getDriver();
+        Date date = new Date();
+        String d=date.toString().replace(" ","_").replace(":","_");
         //Take Screenshot of failed Test Case
-        Reporter.log("Diver value: "+driver);
-        TakesScreenshot ts = (TakesScreenshot)driver;
-        File src = ts.getScreenshotAs(OutputType.FILE);
-        File dest=new File("./\\src\\main\\resources\\screenshots/Take2.png");
-        try {
+        Reporter.log("Diver value: "+driver,true);
+        try{
+            TakesScreenshot ts = (TakesScreenshot)driver;
+            File src = ts.getScreenshotAs(OutputType.FILE);
+            File dest=new File("./\\src\\main\\resources\\screenshots/scnShot_"+d+".jpg");
             FileUtils.copyFile(src,dest);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        }catch (IOException e)
+        {
+            e.printStackTrace();
         }
+
+//        try {
+//
+//        } catch (IOException e) {
+//            //throw new RuntimeException(e);
+//        }
         Reporter.log("Screenshot captured sucessfully!!",true);
         System.out.println("======Test is Failed!!========");
     }

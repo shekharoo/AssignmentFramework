@@ -11,8 +11,10 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.*;
+import org.testng.asserts.SoftAssert;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -54,7 +56,8 @@ public class CreateCampaignWithMandatoryDetailsTest extends BaseClass {
         return flowId;
     }
 
-    public void verifyPopUpAndCreation(WebDriver driver,String flowName) throws InterruptedException, IOException {
+    public boolean verifyPopUpAndCreation(WebDriver driver,String flowName) throws InterruptedException, IOException {
+        boolean flag = true;
         Thread.sleep(1000);
         WebElement popUp =createCampPage.getPopUp();
         //Get text of popup
@@ -69,34 +72,87 @@ public class CreateCampaignWithMandatoryDetailsTest extends BaseClass {
                 System.out.println(flowName+" name is: "+popUpText);
                 System.out.println("Create "+flowName+" is Successful!!");
                 //Capture flow ID
-                String flowNameId = flowId(driver,flowName);
+                String flowNameId = CreateCampaignWithExpectedClosedDateTest.flowId(driver,flowName);
 
                 System.out.println(flowName+"Id: "+flowNameId);
                 //Store flow ID in Property File
                 JavaUtility.writeToPropertyFile(flowName+"Id",flowNameId);
+                return true;
 
             }
             else{
                 System.out.println("Create "+flowName+" is not Successful!!");
+                //Assert.fail();
+                return false;
             }
         }
         else {
             System.out.println("Create "+flowName+" pop up is not displayed");
+            //Assert.fail();
         }
+        return false;
 
     }
-    @Test(dataProvider = "campaignDetails",alwaysRun = true,retryAnalyzer = com.crm.listerners.IRetryAnalyzerClass.class)
+    @Test(dataProvider = "campaignDetails",retryAnalyzer = com.crm.listerners.IRetryAnalyzerClass.class)
     public void createCampaignWithMandatoryDetails(String targetSize) throws Throwable {
 //        BaseClass bs = new BaseClass();
 //        driver=bs.getDriver();
+        String flowName = "campaign";
         hp=new HomePage(driver);
         Reporter.log("Driver is: "+driver);
         createCampPage=new CreateCampaignsPage(driver);
         hp.getCreateCampaignButton().click();
-        createCampPage.createCampaignWithMandatoryDetails(JavaUtility.generateCampaignName(), ExcelUtility.toReadDataFromExcel("Campaigns",1,0));
-        verifyPopUpAndCreation(driver,"campaign");
+        createCampPage.createCampaignWithMandatoryDetails("CampaignCRTARZXBYW", ExcelUtility.toReadDataFromExcel("Campaigns",1,0));
+        //createCampPage.createCampaignWithMandatoryDetails(JavaUtility.generateCampaignName(), ExcelUtility.toReadDataFromExcel("Campaigns",1,0));
+        SoftAssert softAssert = new SoftAssert();
+        //asserts.
+        softAssert.assertTrue(verifyPopUpAndCreation(driver,"campaign"));
+        //Assert.
+        //verifyPopUpAndCreation(driver,"campaign");
+//        Thread.sleep(1000);
+//        WebElement popUp =createCampPage.getPopUp();
+//        //Get text of popup
+//        String popUpText = popUp.getText();
+        //try{
+            //Assert.assertTrue(popUpText.contains("Successfully Added"));
+            //ssert.assertEquals();
+            //Assert.assertEquals(popUpText,popUpText.contains("Successfully Added"));
+//            if(popUp.isDisplayed()) {
+//                //Assert.assertTrue(popUpText.contains("Successfully Added"));
+//                //Assert.fail();
+//                if (popUpText.contains("Successfully Added")) {
+//
+//                    popUpText = JavaUtility.extractTextFromPopUp(popUp, flowName);
+//                    //Store flow Name in Property File
+//                    JavaUtility.writeToPropertyFile(flowName + "Name", popUpText);
+//                    System.out.println(flowName + " name is: " + popUpText);
+//                    System.out.println("Create " + flowName + " is Successful!!");
+//                    //Capture flow ID
+//                    String flowNameId = flowId(driver, flowName);
+//
+//                    System.out.println(flowName + "Id: " + flowNameId);
+//                    //Store flow ID in Property File
+//                    JavaUtility.writeToPropertyFile(flowName + "Id", flowNameId);
+//                }
+            //}
+
+
+//            }
+//            else{
+//                System.out.println("Create "+flowName+" is not Successful!!");
+//            }
+
+
         //Close popUp
         createCampPage.getClosePopUp().click();
+        softAssert.assertAll();
+//        }catch (AssertionError e){
+//            Reporter.log("Error occurred",true);
+//            Assert.fail("Create "+flowName+" is not Successful!!");
+//            throw e;
+//            //Assert.fail();
+//        }
+
 
     }
 
