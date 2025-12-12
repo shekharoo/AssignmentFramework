@@ -93,7 +93,6 @@ public class CreateCampaignWithMandatoryDetailsTest extends BaseClass {
     }
     @Test(dataProvider = "campaignDetails",retryAnalyzer = com.crm.listerners.IRetryAnalyzerClass.class,invocationCount = 2)
     public void createCampaignWithMandatoryDetails(String targetSize) throws Throwable {
-
         String flowName = "campaign";
         hp=new HomePage(driver);
         Reporter.log("Driver is: "+driver);
