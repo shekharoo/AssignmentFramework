@@ -15,7 +15,9 @@ public class HomePage {
         this.driver = driver;
         PageFactory.initElements(driver,this);
     }
-    @FindBy(xpath = "//button[@class='btn btn-info']")
+//    @FindBy(xpath = "//button[@class='btn btn-info']")
+//    WebElement createCampaignButton;
+    @FindBy(xpath = "//span[.='Create Campaign']")
     WebElement createCampaignButton;
 
     @FindBy(linkText = "Campaigns")
