@@ -8,6 +8,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import org.testng.annotations.*;
 
 import java.io.FileInputStream;
@@ -51,7 +52,7 @@ public class CreateCampaignWithExpectedClosedDateTest extends BaseClass {
         return flowId;
     }
 
-    public static void verifyPopUpAndCreation(WebDriver driver,String flowName) throws InterruptedException, IOException {
+    public boolean verifyPopUpAndCreation(WebDriver driver,String flowName) throws InterruptedException, IOException {
         Thread.sleep(1000);
         WebElement popUp =createCampPage.getPopUp();
         //Get text of popup
@@ -71,14 +72,17 @@ public class CreateCampaignWithExpectedClosedDateTest extends BaseClass {
                 System.out.println(flowName+"Id: "+flowNameId);
                 //Store flow ID in Property File
                 JavaUtility.writeToPropertyFile(flowName+"Id",flowNameId);
+                return true;
 
             }
             else{
                 System.out.println("Create "+flowName+" is not Successful!!");
+                return false;
             }
         }
         else {
             System.out.println("Create "+flowName+" pop up is not displayed");
+            return false;
         }
 
     }
@@ -90,7 +94,7 @@ public class CreateCampaignWithExpectedClosedDateTest extends BaseClass {
         createCampPage=new CreateCampaignsPage(driver);
         hp.getCreateCampaignButton().click();
         createCampPage.createCampaignWithClosingDate(JavaUtility.generateCampaignName(), ExcelUtility.toReadDataFromExcel("Campaigns",1,0),JavaUtility.getCurrentDate());
-        CreateCampaignWithExpectedClosedDateTest.verifyPopUpAndCreation(driver,"campaign");
+        Assert.assertTrue(verifyPopUpAndCreation(driver,"campaign"));
         //Close popUp
         createCampPage.getClosePopUp().click();
 
