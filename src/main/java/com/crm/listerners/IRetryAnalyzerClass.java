@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 @Listeners(com.crm.listerners.TestNGListernersClass.class)
 public class IRetryAnalyzerClass implements IRetryAnalyzer{
     int counter = 0;
-    int retryLimit = 1;
+    int retryLimit = 0;
     @Override
     public boolean retry(ITestResult result) {
 
@@ -19,7 +19,7 @@ public class IRetryAnalyzerClass implements IRetryAnalyzer{
             //if(!result.isSuccess())
             {
 
-                Reporter.log("Calling function..!!"+counter +" times..");
+                Reporter.log("Retrying test method.."+counter +" times.."+result.getName());
                 counter++;
                 //iRetryAnalyzerDemo();
 

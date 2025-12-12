@@ -1,10 +1,7 @@
 package com.crm.testscripts;
 
 import com.crm.IConstant;
-import com.crm.genericUtility.BaseClass;
-import com.crm.genericUtility.ExcelUtility;
-import com.crm.genericUtility.JavaUtility;
-import com.crm.genericUtility.WebDriverUtility;
+import com.crm.genericUtility.*;
 import com.crm.objectRepository.ContactsPage;
 import com.crm.objectRepository.CreateCampaignsPage;
 import com.crm.objectRepository.CreateContactsPage;
@@ -13,6 +10,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Listeners;
@@ -96,6 +94,8 @@ public class DependableTest extends BaseClass {
         Reporter.log("Driver is: "+driver);
         createCampPage=new CreateCampaignsPage(driver);
         hp.getCreateCampaignButton().click();
+        //Intentionally failing test case
+        Assert.fail();
         createCampPage.createCampaignWithMandatoryDetails(JavaUtility.generateCampaignName(), ExcelUtility.toReadDataFromExcel("Campaigns",1,0));
         verifyPopUpAndCreation(driver,"campaign");
         //Close popUp
