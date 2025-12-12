@@ -91,6 +91,7 @@ public class CreateCampaignWithMandatoryDetailsTest extends BaseClass {
         String flowName = "campaign";
         hp=new HomePage(driver);
         Reporter.log("Driver is: "+driver);
+        WebDriverUtility.toWait(1000);
         createCampPage=new CreateCampaignsPage(driver);
         hp.getCreateCampaignButton().click();
         //createCampPage.createCampaignWithMandatoryDetails("CampaignCRTARZXBYW", ExcelUtility.toReadDataFromExcel("Campaigns",1,0));
