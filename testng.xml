@@ -9,7 +9,7 @@
         <parameter name="browser" value="chrome"/>
         <classes>
             <class name="com.crm.testscripts.CreateCampaignWithMandatoryDetailsTest"/>
-            <class name="com.crm.testscripts.CreateCampaignWithMandatoryDetailsTest"/>
+<!--            <class name="com.crm.testscripts.CreateCampaignWithMandatoryDetailsTest"/>-->
 
         </classes>
     </test>

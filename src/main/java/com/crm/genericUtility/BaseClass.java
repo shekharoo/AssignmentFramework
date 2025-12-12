@@ -48,7 +48,7 @@ public WebDriver beforeClass(String browser,ITestContext context) throws IOExcep
     //public WebDriver beforeClass(ITestContext context) throws IOException {
     //Reporter.log("launching Browser: "+browser, true);
     //FileUtility fu= new FileUtility();
-    String BROWSER = FileUtility.getFromPropertyFile("browser");
+    //String BROWSER = FileUtility.getFromPropertyFile("browser");
     //if(BROWSER.equalsIgnoreCase("chrome"))
         if(browser.equalsIgnoreCase("chrome"))
     {

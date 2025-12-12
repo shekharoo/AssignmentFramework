@@ -19,7 +19,7 @@ public class FileUtility {
         prop.load(fis);
         String value = prop.getProperty(key);
         System.out.println("Value: "+value);
-        System.out.println("Value is retrieved from property file successfully!");
+        //System.out.println("Value is retrieved from property file successfully!");
         return value;
 
     }
