@@ -93,7 +93,9 @@ public class CreateCampaignWithMandatoryDetailsTest extends BaseClass {
         Reporter.log("Driver is: "+driver);
         WebDriverUtility.toWait(1000);
         createCampPage=new CreateCampaignsPage(driver);
-        hp.getCreateCampaignButton().click();
+        WebElement campaignBtn = hp.getCreateCampaignButton();
+        JavascriptExecutor jse=(JavascriptExecutor)driver;
+        jse.executeScript("arguments[0].click();",campaignBtn);
         //createCampPage.createCampaignWithMandatoryDetails("CampaignCRTARZXBYW", ExcelUtility.toReadDataFromExcel("Campaigns",1,0));
         createCampPage.createCampaignWithMandatoryDetails(JavaUtility.generateCampaignName(), ExcelUtility.toReadDataFromExcel("Campaigns",1,0));
         Assert.assertTrue(verifyPopUpAndCreation(driver,"campaign"));
