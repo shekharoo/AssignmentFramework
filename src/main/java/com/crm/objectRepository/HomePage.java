@@ -17,7 +17,7 @@ public class HomePage {
     }
 //    @FindBy(xpath = "//button[@class='btn btn-info']")
 //    WebElement createCampaignButton;
-    @FindBy(xpath = "//span[.='Create Campaign']")
+    @FindBy(xpath = "//div[@class='container-fluid']/descendant::button")
     WebElement createCampaignButton;
 
     @FindBy(linkText = "Campaigns")
