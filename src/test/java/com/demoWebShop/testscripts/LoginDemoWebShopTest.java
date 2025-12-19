@@ -6,6 +6,7 @@ import com.crm.genericUtility.WebDriverUtility;
 import com.crm.objectRepository.HomePage;
 import com.crm.objectRepository_DemoWebShop.DemoWebLoginPage;
 import org.apache.poi.ss.usermodel.*;
+import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.DataProvider;
@@ -18,6 +19,7 @@ import java.io.IOException;
 @Listeners(com.crm.listerners.TestNGListernersClass.class)
 public class LoginDemoWebShopTest extends BaseClass {
 //    Scenarios:
+    //1)Register 2)Login 3)Add Address 4)Add to Cart and placeorder
 //    1) Login- Verify Title
 //    2) Add product to cart and place order
     //3)Add Address
@@ -46,8 +48,7 @@ public class LoginDemoWebShopTest extends BaseClass {
     }
 
     @Test(dataProvider = "demoWebLoginDetails", retryAnalyzer = com.crm.listerners.IRetryAnalyzerClass.class)
-    public void loginToDemoWebShop(String emailId, String password) throws Throwable {
-        String flowName = "campaign";
+    public void loginToDemoWebShop(WebDriver driver,String emailId, String password) throws Throwable {
         loginPage = new DemoWebLoginPage(driver);
         WebDriverUtility.toWait(1000);
         loginPage.loginToDemoWebShop(emailId, password);

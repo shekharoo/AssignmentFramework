@@ -15,10 +15,10 @@ import java.util.Properties;
 import java.util.Random;
 
 public class JavaUtility {
-    public static StringBuilder generateRandomStrings() {
+    public static String generateRandomStrings() {
         new Random();
         StringBuilder sb = new StringBuilder();
-        String str = "ABC012ZXC";
+        String str = "Abc012zXC";
         int strLen = str.length();
 
         for(int i = 0; i < strLen; ++i) {
@@ -26,7 +26,7 @@ public class JavaUtility {
             sb.append(str.charAt(index));
         }
 
-        return sb;
+        return sb.toString();
     }
     public static String generateCampaignName()
     {
@@ -249,7 +249,7 @@ public class JavaUtility {
 //        String camID=JavaUtility.getFromPropertyFile("CampaignId");
 //        System.out.println("CampdID: "+camID);
         //String emailID=generateEmailId();
-        String name = generateEmailId();
+        String name = generateRandomStrings();
         System.out.println("Name: "+name);
     }
 

@@ -2,10 +2,10 @@ package com.crm.genericUtility;
 
 import com.crm.IConstant;
 import org.apache.poi.ss.usermodel.*;
-import org.json.simple.parser.ParseException;
 import org.testng.annotations.Test;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class ExcelUtility {
@@ -45,9 +45,18 @@ public class ExcelUtility {
             return value;
         }
     public static void toWriteDataToExcel(String sheetName, String value,int rowNum, int cellNum) throws Throwable {
-        FileInputStream fis = new FileInputStream("./src\\main\\resources\\NinzaTestData.xlsx");
+        FileInputStream fis = new FileInputStream(IConstant.excelPath);
         Workbook wb = WorkbookFactory.create(fis);
-        wb.getSheet(sheetName).createRow(rowNum).createCell(cellNum).setCellValue(value);
+        wb.getSheet(sheetName).getRow(rowNum).createCell(cellNum).setCellValue(value);
+        // 3. Write to File
+        try (FileOutputStream fileOut = new FileOutputStream(IConstant.excelPath)) {
+            wb.write(fileOut);
+            //System.out.println("Excel file written successfully!!");
+        }
+            catch (IOException e) {
+                System.out.println("Error occurred in writing to Excel");
+            e.printStackTrace();
+    }
         wb.close();
     }
 
@@ -60,9 +69,11 @@ public class ExcelUtility {
             return rowCount;
         }
 
-//    public static void main(String[] args) throws Throwable {
+    public static void main(String[] args) throws Throwable {
+            toWriteDataToExcel("DemoWebLogin","abcdef@gmail.com",1,0);
+        toWriteDataToExcel("DemoWebLogin","abcdefm",1,1);
 //        String teamSize  = ExcelUtility.toReadDataFromExcel("Campaigns",1,1);
 //        System.out.println(teamSize);
 //        ExcelUtility.toWriteDataToExcel("Campaigns","ABC",1,0);
-//    }
+    }
     }
