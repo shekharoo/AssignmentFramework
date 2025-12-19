@@ -3,7 +3,6 @@ package com.crm.genericUtility;
 import com.crm.IConstant;
 import org.openqa.selenium.WebElement;
 
-import javax.swing.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -139,6 +138,53 @@ public class JavaUtility {
         return s+s2;
         // return s+s1;
     }
+    public static String generateName() {
+        //Generate random strings
+        Random r = new Random();
+        StringBuilder sb = new StringBuilder();
+        String s = "abcdeklhm";
+        //String s1 = "RXYZWABCRT";
+        char[] c = s.toCharArray();
+        int strLen = c.length;
+        for (int i = 0; i < strLen; i++) {
+            int j = r.nextInt(4);
+            char temp = c[i];
+            c[i] = c[j];
+            c[j] = temp;
+            //s+s1.charAt(i);
+        }
+        for (char c1 : c) {
+            sb.append(c1);
+        }
+        String s2 = sb.toString();
+        return s2;
+    }
+    public static String generateEmailId()
+    {
+        StringBuilder sb = new StringBuilder();
+        //Generate random strings
+        Random r = new Random();
+        String s = "abcdefghijkl";
+        //String s1 = String.valueOf(r.nextInt(999));
+        String s1 = "oiuyiop";
+        char[] c=s1.toCharArray();
+        int strLen = c.length;
+        for(int i=0;i<strLen;i++)
+        {
+            int j = r.nextInt(7);
+            char temp=c[i];
+            c[i]=c[j];
+            c[j]=temp;
+            //s+s1.charAt(i);
+        }
+        for(char c1:c)
+        {
+            sb.append(c1);
+        }
+        String s2=sb.toString();
+        return s+s2+"@gmail.com";
+        // return s+s1;
+    }
     public static String extractTextFromPopUp(WebElement ele, String flowName)
     {
         String[] splitString = ele.getText().split(" ");
@@ -200,8 +246,11 @@ public class JavaUtility {
         //String campName=JavaUtility.generateCampaignName();
         //System.out.println(orgName);
         //System.out.println(campName);
-        String camID=JavaUtility.getFromPropertyFile("CampaignId");
-        System.out.println("CampdID: "+camID);
+//        String camID=JavaUtility.getFromPropertyFile("CampaignId");
+//        System.out.println("CampdID: "+camID);
+        //String emailID=generateEmailId();
+        String name = generateEmailId();
+        System.out.println("Name: "+name);
     }
 
 }

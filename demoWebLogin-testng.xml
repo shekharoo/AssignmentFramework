@@ -7,10 +7,10 @@
     </listeners>
     <test name="AssignmentTests1" parallel="tests" thread-count="2">
         <parameter name="browser" value="chrome"/>
-        <parameter name="url" value="http://49.249.28.218:8098"/>
-        <parameter name="applicationName" value="ninzacrm"/>
+        <parameter name="url" value="https://demowebshop.tricentis.com/"/>
+        <parameter name="applicationName" value="demowebshop"/>
         <classes>
-            <class name="com.ninzaCrmtestscripts.CreateCampaignWithMandatoryDetailsTest"/>
+            <class name="com.demoWebShop.testscripts.LoginDemoWebShopTest"/>
 
         </classes>
     </test>

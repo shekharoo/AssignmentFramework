@@ -1,22 +1,27 @@
-package com.crm.testscripts;
+package com.ninzaCrmtestscripts;
 
 import com.crm.IConstant;
-import com.crm.genericUtility.*;
+import com.crm.genericUtility.BaseClass;
+import com.crm.genericUtility.ExcelUtility;
+import com.crm.genericUtility.JavaUtility;
+import com.crm.genericUtility.WebDriverUtility;
 import com.crm.objectRepository.CreateCampaignsPage;
 import com.crm.objectRepository.HomePage;
 import com.crm.objectRepository.LoginPage;
 import org.apache.poi.ss.usermodel.*;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.Reporter;
-import org.testng.annotations.*;
-import org.testng.asserts.SoftAssert;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Listeners(com.crm.listerners.TestNGListernersClass.class)
 public class CreateCampaignWithMandatoryDetailsTest extends BaseClass {
@@ -26,7 +31,7 @@ public class CreateCampaignWithMandatoryDetailsTest extends BaseClass {
     public Object[][] campaignDetails() throws IOException {
         FileInputStream fis = new FileInputStream(IConstant.excelPath);
         Workbook wb = WorkbookFactory.create(fis);
-        Sheet sh = wb.getSheet(IConstant.excelCampaignsSheetName);
+        Sheet sh = wb.getSheet(IConstant.excelLoginSheetName);
         int row = sh.getLastRowNum();
         int cell = sh.getRow(row).getLastCellNum();
         Object[][] data = new Object[row][cell];
@@ -87,8 +92,10 @@ public class CreateCampaignWithMandatoryDetailsTest extends BaseClass {
 
     }
     @Test(dataProvider = "campaignDetails",retryAnalyzer = com.crm.listerners.IRetryAnalyzerClass.class)
-    public void createCampaignWithMandatoryDetails(String targetSize) throws Throwable {
+    public void createCampaignWithMandatoryDetails(String username,String password) throws Throwable {
         String flowName = "campaign";
+        lp=new LoginPage(driver);
+        lp.loginToNinza(username,password);
         hp=new HomePage(driver);
         Reporter.log("Driver is: "+driver);
         WebDriverUtility.toWait(1000);
@@ -96,7 +103,6 @@ public class CreateCampaignWithMandatoryDetailsTest extends BaseClass {
         WebElement campaignBtn = hp.getCreateCampaignButton();
         JavascriptExecutor jse=(JavascriptExecutor)driver;
         jse.executeScript("arguments[0].click();",campaignBtn);
-        //createCampPage.createCampaignWithMandatoryDetails("CampaignCRTARZXBYW", ExcelUtility.toReadDataFromExcel("Campaigns",1,0));
         createCampPage.createCampaignWithMandatoryDetails(JavaUtility.generateCampaignName(), ExcelUtility.toReadDataFromExcel("Campaigns",1,0));
         Assert.assertTrue(verifyPopUpAndCreation(driver,"campaign"));
         //Close popUp

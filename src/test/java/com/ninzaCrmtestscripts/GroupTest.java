@@ -1,14 +1,11 @@
-package com.crm.testscripts;
+package com.ninzaCrmtestscripts;
 
 import com.crm.IConstant;
 import com.crm.genericUtility.BaseClass;
 import com.crm.genericUtility.ExcelUtility;
 import com.crm.genericUtility.JavaUtility;
 import com.crm.genericUtility.WebDriverUtility;
-import com.crm.objectRepository.ContactsPage;
-import com.crm.objectRepository.CreateCampaignsPage;
-import com.crm.objectRepository.CreateContactsPage;
-import com.crm.objectRepository.HomePage;
+import com.crm.objectRepository.*;
 import org.apache.poi.ss.usermodel.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -32,7 +29,7 @@ public class GroupTest extends BaseClass {
     public Object[][] campaignDetails() throws IOException {
         FileInputStream fis = new FileInputStream(IConstant.excelPath);
         Workbook wb = WorkbookFactory.create(fis);
-        Sheet sh = wb.getSheet(IConstant.excelCampaignsSheetName);
+        Sheet sh = wb.getSheet(IConstant.excelLoginSheetName);
         int row = sh.getLastRowNum();
         int cell = sh.getRow(row).getLastCellNum();
         Object[][] data = new Object[row][cell];
@@ -90,9 +87,11 @@ public class GroupTest extends BaseClass {
 
     }
     @Test(dataProvider = "campaignDetails",groups = {"Smoke"},retryAnalyzer = com.crm.listerners.IRetryAnalyzerClass.class)
-    public void createCampaignWithMandatoryDetails(String targetSize) throws Throwable {
+    public void createCampaignWithMandatoryDetails(String username,String password) throws Throwable {
 //        BaseClass bs = new BaseClass();
 //        driver=bs.getDriver();
+        lp=new LoginPage(driver);
+        lp.loginToNinza(username,password);
         hp=new HomePage(driver);
         Reporter.log("Driver is: "+driver);
         createCampPage=new CreateCampaignsPage(driver);
@@ -103,11 +102,13 @@ public class GroupTest extends BaseClass {
         createCampPage.getClosePopUp().click();
 
     }
-    @Test(dependsOnMethods = "createCampaignWithMandatoryDetails",groups = {"Functional"},retryAnalyzer = com.crm.listerners.IRetryAnalyzerClass.class)
-    public void createContact() throws Throwable {
+    @Test(dataProvider = "campaignDetails",dependsOnMethods = "createCampaignWithMandatoryDetails",groups = {"Functional"},retryAnalyzer = com.crm.listerners.IRetryAnalyzerClass.class)
+    public void createContact(String username,String password) throws Throwable {
 
         //BaseClass bs = new BaseClass();
         //driver=bs.getDriver();
+        lp=new LoginPage(driver);
+        lp.loginToNinza(username,password);
         hp=new HomePage(driver);
         createCampPage=new CreateCampaignsPage(driver);
         contPage = new ContactsPage(driver);

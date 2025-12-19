@@ -1,13 +1,9 @@
 package com.crm.listerners;
-import com.aventstack.extentreports.ExtentReports;
+
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.MediaEntityBuilder;
 import com.aventstack.extentreports.Status;
-import com.crm.IConstant;
-import com.crm.extentReport.ExtentReportManagerClass;
 import com.crm.extentReport.ExtentTestManagerClass;
-import com.crm.genericUtility.BaseClass;
-import com.crm.testscripts.CreateCampaignWithMandatoryDetailsTest;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -23,7 +19,6 @@ import java.util.Date;
 
 public class TestNGListernersClass implements ITestListener {
 
-    CreateCampaignWithMandatoryDetailsTest c= new CreateCampaignWithMandatoryDetailsTest();
     public void onTestStart(ITestResult result) {
         ExtentTestManagerClass.createTest(result.getMethod().getMethodName());
         Reporter.log("======Test is going to start========"+result.getTestContext().getName()+"=="+result.getMethod().getMethodName(),true);
@@ -63,7 +58,7 @@ public class TestNGListernersClass implements ITestListener {
             File src = ts.getScreenshotAs(OutputType.FILE);
             File dest=new File("./\\src\\main\\resources\\screenshots/scnShot_"+d+".jpeg");
             FileUtils.copyFile(src,dest);
-            String scrnShotPath= IConstant.screenShotPath+"/"+"scnShot_"+d+".jpeg";
+            //String scrnShotPath= IConstant.screenShotPath+"/"+"scnShot_"+d+".jpeg";
             // Method to capture screenshot and return as Base64 String
             String base64Screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.BASE64);
             ExtentTest testName = ExtentTestManagerClass.getTest();

@@ -1,7 +1,9 @@
-package com.crm.testscripts;
+package com.ninzaCrmtestscripts;
 
 import com.crm.IConstant;
-import com.crm.genericUtility.*;
+import com.crm.genericUtility.BaseClass;
+import com.crm.genericUtility.ExcelUtility;
+import com.crm.genericUtility.JavaUtility;
 import com.crm.objectRepository.CreateCampaignsPage;
 import com.crm.objectRepository.HomePage;
 import org.apache.poi.ss.usermodel.*;
@@ -9,7 +11,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
 
 import java.io.FileInputStream;
 import java.io.IOException;

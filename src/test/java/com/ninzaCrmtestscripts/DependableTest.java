@@ -1,11 +1,10 @@
-package com.crm.testscripts;
+package com.ninzaCrmtestscripts;
 
 import com.crm.IConstant;
 import com.crm.genericUtility.BaseClass;
 import com.crm.genericUtility.ExcelUtility;
 import com.crm.genericUtility.JavaUtility;
 import com.crm.genericUtility.WebDriverUtility;
-import com.crm.listerners.TestNGListernersClass;
 import com.crm.objectRepository.ContactsPage;
 import com.crm.objectRepository.CreateCampaignsPage;
 import com.crm.objectRepository.CreateContactsPage;
@@ -14,6 +13,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Listeners;
@@ -22,16 +22,14 @@ import org.testng.annotations.Test;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
-
 @Listeners(com.crm.listerners.TestNGListernersClass.class)
-public class CreateContactTest extends BaseClass {
-    public static CreateCampaignsPage createCampPage = null;
-    public static HomePage hp = null;
-    public static ContactsPage contPage = null;
-    public static CreateContactsPage createContPage = null;
-
+public class DependableTest extends BaseClass {
+    public CreateCampaignsPage createCampPage =null;
+    public HomePage hp = null;
+    public ContactsPage contPage = null;
+    public CreateContactsPage createContPage = null;
     @DataProvider(parallel = true)
-    public Object[][] loginDetails() throws IOException {
+    public Object[][] campaignDetails() throws IOException {
         FileInputStream fis = new FileInputStream(IConstant.excelPath);
         Workbook wb = WorkbookFactory.create(fis);
         Sheet sh = wb.getSheet(IConstant.excelCampaignsSheetName);
@@ -52,7 +50,7 @@ public class CreateContactTest extends BaseClass {
         return data;
     }
 
-    public static String flowId(WebDriver driver,String flowNameId)
+    public String flowId(WebDriver driver, String flowNameId)
     {
         List<WebElement> listFLows = driver.findElements(By.xpath("//table[@class='table table-striped table-hover']/tbody/tr/td[1]"));
         String flowId = listFLows.get(0).getText();
@@ -60,7 +58,7 @@ public class CreateContactTest extends BaseClass {
         return flowId;
     }
 
-    public static void verifyPopUpAndCreation(WebDriver driver,String flowName) throws InterruptedException, IOException {
+    public void verifyPopUpAndCreation(WebDriver driver,String flowName) throws InterruptedException, IOException {
         Thread.sleep(1000);
         WebElement popUp =createCampPage.getPopUp();
         //Get text of popup
@@ -75,7 +73,7 @@ public class CreateContactTest extends BaseClass {
                 System.out.println(flowName+" name is: "+popUpText);
                 System.out.println("Create "+flowName+" is Successful!!");
                 //Capture flow ID
-                String flowNameId = CreateContactTest.flowId(driver,flowName);
+                String flowNameId = flowId(driver,flowName);
 
                 System.out.println(flowName+"Id: "+flowNameId);
                 //Store flow ID in Property File
@@ -91,7 +89,23 @@ public class CreateContactTest extends BaseClass {
         }
 
     }
-    @Test(dataProvider = "loginDetails",alwaysRun = true,retryAnalyzer = com.crm.listerners.IRetryAnalyzerClass.class)
+    @Test(dataProvider = "campaignDetails",alwaysRun = true,retryAnalyzer = com.crm.listerners.IRetryAnalyzerClass.class)
+    public void createCampaignWithMandatoryDetails(String targetSize) throws Throwable {
+//        BaseClass bs = new BaseClass();
+//        driver=bs.getDriver();
+        hp=new HomePage(driver);
+        Reporter.log("Driver is: "+driver);
+        createCampPage=new CreateCampaignsPage(driver);
+        hp.getCreateCampaignButton().click();
+        //Intentionally failing test case
+        Assert.fail();
+        createCampPage.createCampaignWithMandatoryDetails(JavaUtility.generateCampaignName(), ExcelUtility.toReadDataFromExcel("Campaigns",1,0));
+        verifyPopUpAndCreation(driver,"campaign");
+        //Close popUp
+        createCampPage.getClosePopUp().click();
+
+    }
+    @Test(dependsOnMethods = "createCampaignWithMandatoryDetails",retryAnalyzer = com.crm.listerners.IRetryAnalyzerClass.class)
     public void createContact() throws Throwable {
 
         //BaseClass bs = new BaseClass();
@@ -133,7 +147,7 @@ public class CreateContactTest extends BaseClass {
         Reporter.log("Select campaign from drop down is successful!!");
         //Get Campaign Id from propert file
         String campaignId = JavaUtility.getFromPropertyFile("campaignId");
-        //Search for Camapign id inside search box
+        //Serach for Camapign id inside search box
         createContPage.getSearchCampaignIdSearchBox().sendKeys(campaignId);
         Reporter.log("Enter Campaign ID is successful!!");
         Thread.sleep(1000);
@@ -155,5 +169,5 @@ public class CreateContactTest extends BaseClass {
 
     }
 
-    }
 
+}

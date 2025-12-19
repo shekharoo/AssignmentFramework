@@ -8,6 +8,7 @@ import java.util.Date;
 
 public class ExtentReportManagerClass {
     private static ExtentReports extentReport;
+
     public static ExtentReports getExtentReport()
     {
         if(extentReport==null)
@@ -25,5 +26,7 @@ public class ExtentReportManagerClass {
             extentReport.setSystemInfo("Environment", "QA");
         }
         return extentReport;
+
     }
+
 }

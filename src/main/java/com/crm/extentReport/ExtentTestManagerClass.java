@@ -7,8 +7,6 @@ import com.aventstack.extentreports.Status;
 public class ExtentTestManagerClass {
 
     private static ExtentReports extent= ExtentReportManagerClass.getExtentReport();
-
-
     private static ThreadLocal<ExtentTest> test = new ThreadLocal<>();
     private static ThreadLocal<ExtentTest> parentTest = new ThreadLocal<>();
 

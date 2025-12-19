@@ -1,10 +1,9 @@
-package com.crm.testscripts;
+package com.ninzaCrmtestscripts;
 
 import com.crm.IConstant;
 import com.crm.genericUtility.BaseClass;
 import com.crm.genericUtility.ExcelUtility;
 import com.crm.genericUtility.JavaUtility;
-import com.crm.genericUtility.WebDriverUtility;
 import com.crm.objectRepository.ContactsPage;
 import com.crm.objectRepository.CreateCampaignsPage;
 import com.crm.objectRepository.CreateContactsPage;
