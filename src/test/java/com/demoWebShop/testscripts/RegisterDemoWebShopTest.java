@@ -6,6 +6,7 @@ import com.crm.genericUtility.JavaUtility;
 import com.crm.genericUtility.WebDriverUtility;
 import com.crm.objectRepository_DemoWebShop.RegisterPage;
 import org.testng.Assert;
+import org.testng.Reporter;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
@@ -32,5 +33,6 @@ public class RegisterDemoWebShopTest extends BaseClass {
         WebDriverUtility.toWait(1000);
         String actualText=r.getRegistrationText().getText();
         Assert.assertEquals("Your registration completed",actualText);
+        Reporter.log("Registration is Successfull!!",true);
     }
 }

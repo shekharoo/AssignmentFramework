@@ -7,6 +7,7 @@ import com.crm.objectRepository.HomePage;
 import com.crm.objectRepository_DemoWebShop.DemoWebLoginPage;
 import org.apache.poi.ss.usermodel.*;
 import org.testng.Assert;
+import org.testng.Reporter;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -52,6 +53,7 @@ public class LoginDemoWebShopTest extends BaseClass {
         loginPage.loginToDemoWebShop(emailId, password);
         String expTitle = driver.getTitle();
         Assert.assertEquals(driver.getTitle(), "Demo Web Shop");
+        Reporter.log("Login is Successful!!",true);
 
     }
 }
