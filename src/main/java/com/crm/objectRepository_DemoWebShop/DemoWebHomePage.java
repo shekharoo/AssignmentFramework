@@ -19,7 +19,7 @@ public class DemoWebHomePage {
     WebElement myAccount;
     @FindBy(linkText = "Addresses")
     WebElement addressMenu;
-    @FindBy(xpath="//input[@type='button']")
+    @FindBy(xpath="//div[@class='add-button']//input")
     WebElement addNewAddress;
     public WebElement getMyAccount() {
         return myAccount;
