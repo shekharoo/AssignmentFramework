@@ -6,17 +6,17 @@ import com.crm.objectRepository.HomePage;
 import com.crm.objectRepository.LoginPage;
 import com.crm.objectRepository_DemoWebShop.DemoWebLoginPage;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestContext;
 import org.testng.Reporter;
 import org.testng.annotations.*;
 
 import java.io.IOException;
+import java.net.URL;
 import java.time.Duration;
-import java.util.HashMap;
 import java.util.Map;
 
 /***
@@ -52,23 +52,53 @@ public WebDriver beforeClass(String browser,ITestContext context) throws IOExcep
     //if(BROWSER.equalsIgnoreCase("chrome"))
         if(browser.equalsIgnoreCase("chrome"))
     {
-        ChromeOptions options = new ChromeOptions();
-        Map<String, Object> prefs = new HashMap<>();
-        prefs.put("profile.password_manager_leak_detection", false);
-        options.setExperimentalOption("prefs", prefs);
-        //URL url = new URL("http://49.249.28.218:8098/");
-        //ChromeOptions option= new ChromeOptions();
-        //option.addArguments("--start-maximized");
-        //RemoteWebDriver driver = new RemoteWebDriver(url,options);
-        driver = new ChromeDriver(options);
-       // Set the driver instance as an attribute in ITestContext
+        //Added for Docker
+        ChromeOptions options= new ChromeOptions();
+        URL url = new URL("http://localhost:4444/wd/hub");
+        options.addArguments("--start-maximized");
+        options.setCapability("se:name", "RegisterTest_ValidRegisterClick");
+        Map<String, Object> map = options.asMap();
+        System.out.println("All values of chrome options: "+map);
+        driver = new RemoteWebDriver(url,options);
+        System.out.println("Driver value: "+driver);
+        //*************************/
+//        ChromeOptions options = new ChromeOptions();
+//        Map<String, Object> prefs = new HashMap<>();
+//        prefs.put("profile.password_manager_leak_detection", false);
+//        options.setExperimentalOption("prefs", prefs);
+//        driver = new ChromeDriver(options);
+        //Set the driver instance as an attribute in ITestContext
         //context.setAttribute("RemoteWebDriver", driver);
         context.setAttribute("WebDriver", driver);
         //context.getTestContext().setAttribute("WebDriver", driver);
         WebDriverUtility.toMaximize(driver);
         lp = new LoginPage(driver);
         hp = new HomePage(driver);
+        //URL url = new URL("http://49.249.28.218:8098/");
+        //ChromeOptions option= new ChromeOptions();
+        //option.addArguments("--start-maximized");
+        //RemoteWebDriver driver = new RemoteWebDriver(url,options);
         createCampPage=new CreateCampaignsPage(driver);
+        //End for Docker
+
+
+//        ChromeOptions options = new ChromeOptions();
+//        Map<String, Object> prefs = new HashMap<>();
+//        prefs.put("profile.password_manager_leak_detection", false);
+//        options.setExperimentalOption("prefs", prefs);
+//        driver = new ChromeDriver(options);
+//        //Set the driver instance as an attribute in ITestContext
+//        //context.setAttribute("RemoteWebDriver", driver);
+//        context.setAttribute("WebDriver", driver);
+//        //context.getTestContext().setAttribute("WebDriver", driver);
+//        WebDriverUtility.toMaximize(driver);
+//        lp = new LoginPage(driver);
+//        hp = new HomePage(driver);
+//        //URL url = new URL("http://49.249.28.218:8098/");
+//        //ChromeOptions option= new ChromeOptions();
+//        //option.addArguments("--start-maximized");
+//        //RemoteWebDriver driver = new RemoteWebDriver(url,options);
+//        createCampPage=new CreateCampaignsPage(driver);
     } else if (browser.equalsIgnoreCase("edge")) {
         driver = new EdgeDriver();
             WebDriverUtility.toMaximize(driver);
